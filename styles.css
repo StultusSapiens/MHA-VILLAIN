@@ -1,0 +1,342 @@
+:root {
+  --primary-color: #4ecdc4;
+  --secondary-color: #ff6b6b;
+  --bg-color: #1a1a2e;
+  --text-color: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100%;
+  overflow: hidden;
+}
+
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+
+.orb:nth-child(1) {
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background-color: var(--primary-color);
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb:nth-child(2) {
+  bottom: -15%;
+  right: -15%;
+  width: 600px;
+  height: 600px;
+  background-color: var(--secondary-color);
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.orb:nth-child(3) {
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  background-color: #a3a3ff;
+  animation: float 18s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(100px, 100px) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+.glassmorphism {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--glass-bg));
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+#intro-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.logo {
+  margin-bottom: 2rem;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.glow-text {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 1px #fff, 0 0 3px #fff, 0 0 4px var(--primary-color), 0 0 4px var(--primary-color); }
+  to { text-shadow: 0 0 3px #fff, 0 0 5px #fff, 0 0 7px var(--secondary-color), 0 0 10px var(--secondary-color); }
+}
+
+.neon-button {
+  padding: 0.75rem 2rem;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.neon-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-color);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.neon-button:hover {
+  color: var(--bg-color);
+}
+
+.neon-button:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+#story-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.top-nav {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.icon-button:hover {
+  transform: scale(1.1);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  min-width: 150px;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.audio-controls {
+  display: flex;
+  gap: 10px; /* Adjust the space between buttons as needed */
+}
+
+.story-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.story-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+    pointer-events: none;
+  }
+}
+
+.character-container {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(0);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  height: 80vh;
+}
+
+.character-image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  transform-origin: bottom center;
+  animation: character-entrance 1s ease-out;
+}
+
+@keyframes character-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(50px) rotateY(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateY(0);
+  }
+}
+.dialogue-container {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  padding: 1.5rem;
+}
+
+.character-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+  letter-spacing: 1px;
+  transform: translateZ(0);
+  transition: all 0.3s ease;
+}
+
+.typewriter {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  min-height: 4.8rem;
+}
+
+.story-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 0.5rem;
+}
+
+.control-button:hover {
+  transform: scale(1.1);
+}
+
+.hidden {
+  display: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .glow-text {
+      font-size: 2rem;
+  }
+
+  .neon-button {
+      font-size: 1rem;
+  }
+
+  .dialogue-container {
+      width: 90%;
+  }
+
+  .character-name {
+      font-size: 1.2rem;
+  }
+
+  .typewriter {
+      font-size: 1rem;
+  }
+}

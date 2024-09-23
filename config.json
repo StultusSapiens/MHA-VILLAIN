@@ -1,0 +1,273 @@
+{
+  "uiConfig": {
+    "primaryColor": "#4a90e2",
+    "backgroundColor": "black",
+    "textColor": "#ffffff",
+    "fontFamily": "Arial, sans-serif",
+    "typingSpeed": 20,
+    "autoModeDelay": 3000
+  },
+  "characters": [
+    {
+      "name": "All For One",
+      "image": "images/CH/All_For_One_One.png",
+      "soundEffect": "audio/CH/all-for-one1.mp4"
+    },
+    {
+      "name": "Dabi",
+      "image": "images/CH/Dabi1.png",
+      "soundEffect": "audio/CH/dabi1.mp4"
+    },
+    {
+      "name": "Himiko",
+      "image": "images/CH/Himiko1.png",
+      "soundEffect": "audio/CH/himiko1.mp4"
+    },
+    {
+      "name": "Twice",
+      "image": "images/CH/Twice1.png",
+      "soundEffect": "audio/CH/twice1.mp4"
+    },
+    {
+      "name": "Mr. Compass",
+      "image": "images/CH/Compress1.png",
+      "soundEffect": "audio/CH/compress1.mp4"
+    },
+    {
+      "name": "Spinner",
+      "image": "images/CH/Spinner1.png",
+      "soundEffect": "audio/CH/spinner1.mp4"
+    },
+    {
+      "name": "Izuku Midoriya",
+      "image": "images/CH/Midoriya1.png",
+      "soundEffect": "audio/CH/midoriya1.mp4"
+    }
+  ],
+  "chapters": [
+    {
+      "title": "Chapter 1: The Unfair Fate",
+      "backgroundMusic": "audio/CH/heartrate.wav",
+      "scenes": [
+        {
+          "background": "images/SC1.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "In a world of bright heroes, you lie in a hospital bed, the relentless beeping of machines a stark reminder of your fate. You sacrificed everything, saving a stranger, only to be shackled by a terminal illness—a cruel twist of irony."
+          },
+          "soundEffects": ["audio/SFX/beeping.mp3"]
+        },
+        {
+          "background": "images/SC1a.jpg",
+          "characters": [
+            {"name": "All For One", "image": "images/CH/All_For_One_One.png"}
+          ],
+          "dialogue": {
+            "speaker": "All For One",
+            "text": "Ah, what a tragic spectacle. A once-promising hero, now reduced to this pitiful state. But tell me, do you truly believe this is the end of your story?"
+          }
+        },
+        {
+          "background": "images/SC1a.jpg",
+          "characters": [
+            {"name": "All For One", "image": "images/CH/All_For_One_One.png"}
+          ],
+          "dialogue": {
+            "speaker": "All For One",
+            "text": "Imagine a life beyond this bed, a chance to wield unimaginable power. Join me, and you can reshape the world in your image."
+          }
+        },
+        {
+          "background": "images/SC1a.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "His voice slithers into your mind, offering a tantalizing glimpse of hope amidst despair. What lies ahead could change everything."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Chapter 2: The New Beginning",
+      "backgroundMusic": "audio/BGM/chapter2_bgm.mp3",
+      "scenes": [
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "Days later, you awaken, transformed. All For One has resurrected you, bestowing a new quirk that pulses with raw energy, igniting a fire deep within."
+          },
+          "soundEffects": ["audio/SFX/villains_murmur.mp3"]
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "All For One", "image": "images/CH/All_For_One_One.png"}
+          ],
+          "dialogue": {
+            "speaker": "All For One",
+            "text": "Welcome to the Vanguard Action Squad. Allow me to introduce you to your new family, where chaos reigns supreme."
+          }
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Dabi", "image": "images/CH/Dabi1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Dabi",
+            "text": "You look like you'll fit right in with our delightful madness. Just remember, don't cross me, or you might end up as a smoldering pile of ash."
+          }
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Himiko", "image": "images/CH/Himiko1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Himiko",
+            "text": "Oh, I'm so excited! You seem like someone who knows how to have fun. I can't wait to see what you're made of—maybe even taste it! What's your blood type? Hehe!"
+          }
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Twice", "image": "images/CH/Twice1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Twice",
+            "text": "And I'll make a copy of you! We can have a party with the real you and the clone—just imagine the chaos!"
+          }
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Mr. Compass", "image": "images/CH/Compress1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Mr. Compass",
+            "text": "Focus, everyone. We have a mission to execute. No slip-ups. We're going for Bakugo."
+          }
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Spinner", "image": "images/CH/Spinner1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Spinner",
+            "text": "With you on our side, this will be a cakewalk. U.A. won't even know what hit them."
+          }
+        },
+        {
+          "background": "images/SC2.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "As they devise their wicked plan to capture Katsuki Bakugo, a thrilling sense of power courses through you—a heady mix of rebellion and darkness."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Chapter 3: The Infiltration",
+      "backgroundMusic": "audio/BGM/chapter3_bgm.mp3",
+      "scenes": [
+        {
+          "background": "images/SC3a.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "The day has arrived. You stand shoulder to shoulder with your comrades, the air thick with anticipation. This is your moment—ready to dive headfirst into a world of chaos."
+          },
+          "soundEffects": ["audio/SFX/stealth.mp3"]
+        },
+        {
+          "background": "images/SC3b.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "Every calculated step fills you with adrenaline, the thrill of danger intoxicating your senses."
+          }
+        },
+        {
+          "background": "images/SC3b.jpg",
+          "characters": [
+            {"name": "Dabi", "image": "images/CH/Dabi1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Dabi",
+            "text": "Keep low and stick to the shadows. We're not here to play nice; let's make some noise and draw them in."
+          }
+        },
+        {
+          "background": "images/SC3b.jpg",
+          "characters": [
+            {"name": "Himiko", "image": "images/CH/Himiko1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Himiko",
+            "text": "I can't wait to meet Bakugo! Just imagine his face when he sees me! I wonder how much he'll scream… or if I can make him bleed! Hehe!"
+          }
+        },
+        {
+          "background": "images/SC3b.jpg",
+          "characters": [
+            {"name": "Twice", "image": "images/CH/Twice1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Twice",
+            "text": "This is gonna be a blast! Let's give 'em a show they won't forget!"
+          }
+        },
+        {
+          "background": "images/SC3c.jpg",
+          "characters": [
+            {"name": "Izuku Midoriya", "image": "images/CH/Midoriya1.png"}
+          ],
+          "dialogue": {
+            "speaker": "Izuku Midoriya",
+            "text": "Stop right there! You can't just barge in here!"
+          },
+          "soundEffects": ["audio/SFX/intense_music.mp3"]
+        },
+        {
+          "background": "images/SC3c.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "You stand before the heroes you once admired, heart racing as dark ambition stirs within you. The weight of your choices presses down, but the thrill of the chase ignites a fire in your soul."
+          }
+        },
+        {
+          "background": "images/SC3c.jpg",
+          "characters": [
+            {"name": "Narrator", "image": null}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "As the tension crackles in the air, you find yourself at a crossroads. Will you embrace the darkness, reveling in your newfound power, or will you turn back against the tide? The choice is yours, and the consequences will echo in the shadows…"
+          }
+        }
+      ]
+    }
+  ],
+  "characterInfoUrl": "charlist.html",
+  "creditsUrl": "2creator.html"
+}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Credits</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        .credits-page {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.9)), url('/api/placeholder/1920/1080') center/cover no-repeat fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .creator-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        .creator-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            width: 100%;
+        }
+        .creator-pfp {
+            width: 200px;
+            height: 200px;
+            border-radius: 100%;
+            background: url('https://s3.us-west-1.amazonaws.com/ai-character/uploaded/c/image/1725041777788_de2775ea.webp') center/cover no-repeat;
+            margin-right: 2.5rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .creator-pfp::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.5;
+            transition: opacity 0.5s ease;
+        }
+        .creator-pfp:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+        .creator-pfp:hover::after {
+            opacity: 0.8;
+        }
+        .creator-info {
+            flex: 1;
+            text-align: left;
+        }
+        .creator-info h2 {
+            font-size: 2.5em;
+            margin: 0;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .creator-title {
+            font-size: 1.2em;
+            color: #b0b0b0;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        .creator-bio {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            padding: 20px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid #4a4a4a;
+            width: 100%;
+        }
+        .creator-bio::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 100px;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: serif;
+        }
+        .creator-link {
+            display: inline-block;
+            color: #ffffff;
+            background-color: #3a3a3a;
+            text-decoration: none;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: auto;
+        }
+        .creator-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(45deg, #4a4a4a, #2a2a2a);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        .creator-link:hover::before {
+            width: 100%;
+        }
+        .creator-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .creator-link:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        @media (max-width: 768px) {
+            .creator-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .creator-pfp {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+            .creator-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="credits-page">
+        <div class="creator-card">
+            <div class="creator-header">
+                <div class="creator-pfp"></div>
+                <div class="creator-info">
+                    <h2>🅷🆄🅼🅰🅽</h2>
+                    <p class="creator-title">😊 Your Friendly Neighborhood BOT Pimp 😊</p>
+                </div>
+            </div>
+            <p class="creator-bio">Hey there! I'm the creator behind this character and many others. If you're interested in chatting with my other AI characters or seeing more of my work, feel free to check out my profile. I'm always excited to share new creations and interact with fellow AI enthusiasts!</p>
+            <a href="#" class="creator-link">Visit My Profile</a>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            gsap.to('.creator-card', {
+                duration: 1.2,
+                y: 0,
+                opacity: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.creator-pfp', {
+                duration: 1.5,
+                scale: 0.5,
+                opacity: 0,
+                rotation: -15,
+                ease: 'elastic.out(1, 0.5)',
+                delay: 0.5
+            });
+
+            gsap.from('.creator-info', {
+                duration: 1,
+                x: -50,
+                opacity: 0,
+                ease: 'power3.out',
+                delay: 0.7
+            });
+
+            gsap.from('.creator-bio', {
+                duration: 1,
+                y: 30,
+                opacity: 0,
+                ease: 'power3.out',
+                delay: 0.9
+            });
+
+            gsap.from('.creator-link', {
+                duration: 1,
+                scale: 0.8,
+                ease: 'power3.out',
+                delay: 1.1
+            });
+        });
+    </script>
+</body>
+</html>
