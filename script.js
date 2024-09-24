@@ -4,17 +4,18 @@ let currentChapterIndex = 0;
 let currentSceneIndex = 0;
 let isAutoMode = false;
 let audioContext;
-let backgroundMusic;
 let typingTimeout;
 let isTyping = false;
-let isAudioEnabled = true; // Global audio toggle, on by default
-let characterSounds = {}; // Object to store character sound effects
-let isMusicEnabled = true; // Background music toggle
-let isDialogueEnabled = true; // Character dialogue toggle
-let currentCharacterAudio = null; // Store currently playing character sound
-let currentChapterBackgroundMusic;
+let isAudioEnabled = true;
+let characterSounds = {};
+let isMusicEnabled = true;
+let isDialogueEnabled = true;
+let currentCharacterAudio = null;
+let currentChapterBackgroundMusic = null;
 let overlayIframe;
 let isOverlayVisible = false;
+let totalAssets = 0;
+let loadedAssets = 0;
 
 // DOM elements
 const introScreen = document.getElementById('intro-screen');
@@ -31,8 +32,12 @@ const characterInfoButton = document.getElementById('character-info-button');
 const toggleAudioButton = document.getElementById('toggle-audio-button');
 const toggleMusicButton = document.getElementById('toggle-music-button');
 const toggleDialogueButton = document.getElementById('toggle-dialogue-button');
+const loadingScreen = document.getElementById('loading-screen');
+const loadingProgress = document.getElementById('loading-progress');
+const startButton = document.getElementById('startButton');
 
 // Event listeners
+startButton.addEventListener('click', startLoading);
 document.getElementById('startButton').addEventListener('click', startStory);
 backButton.addEventListener('click', goToPreviousScene);
 autoButton.addEventListener('click', toggleAutoMode);
@@ -63,10 +68,62 @@ async function loadStoryData() {
         const response = await fetch('config.json');
         storyData = await response.json();
         customizeUI(storyData.uiConfig);
+        await preloadAssets(); // Add this line
     } catch (error) {
         console.error('Error loading story data:', error);
     }
 }
+
+function startLoading() {
+    introScreen.classList.add('hidden');
+    loadingScreen.classList.remove('hidden');
+    loadStoryData().then(() => {
+        console.log('Story data loaded successfully');
+        initAudioContext();
+        loadCharacterSounds();
+        preloadAssets();
+    });
+}
+
+// Add the preloadAssets function
+async function preloadAssets() {
+    const assets = [];
+
+    // Collect all asset URLs but do not play them
+    storyData.chapters.forEach(chapter => {
+        if (chapter.backgroundMusic) assets.push(chapter.backgroundMusic); // Just preload, don't play
+        chapter.scenes.forEach(scene => {
+            if (scene.background) assets.push(scene.background);
+            scene.characters.forEach(char => {
+                if (char.image) assets.push(char.image);
+            });
+        });
+    });
+
+    // Preload character sound effects but ensure they don't play automatically
+    if (storyData.characters) {
+        storyData.characters.forEach(character => {
+            if (character.soundEffect) {
+                assets.push(character.soundEffect);
+            }
+        });
+    }
+
+    const uniqueAssets = [...new Set(assets)].filter(asset => asset && asset.trim() !== '');
+    totalAssets = uniqueAssets.length;
+
+    // Preload assets without playing any audio
+    const loadPromises = uniqueAssets.map(url => loadAsset(url));
+    await Promise.all(loadPromises);
+
+    console.log(`Finished loading assets. ${loadedAssets} out of ${totalAssets} loaded successfully.`);
+
+    // Start the story after preloading, but don't start music here
+    loadingScreen.classList.add('hidden');
+    startStory();
+}
+
+
 
 // Customize UI based on JSON configuration
 function customizeUI(uiConfig) {
@@ -76,24 +133,76 @@ function customizeUI(uiConfig) {
     document.body.style.fontFamily = uiConfig.fontFamily;
 }
 
-// Start the story
-function startStory() {
-    introScreen.classList.add('fade-out');
-    setTimeout(() => {
-        introScreen.style.display = 'none';
-        storyContainer.classList.remove('hidden');
-        storyContainer.classList.add('fade-in');
-        loadChapter(currentChapterIndex);
-    }, 1000);
+function loadAsset(url) {
+    return new Promise((resolve, reject) => {
+        if (url.match(/\.(jpeg|jpg|gif|png)$/)) {
+            const img = new Image();
+            img.onload = () => {
+                updateLoadingProgress();
+                resolve(url);
+            };
+            img.onerror = () => {
+                console.warn(`Failed to load image: ${url}`);
+                updateLoadingProgress();
+                resolve(url); // Resolve anyway to continue loading
+            };
+            img.src = url;
+        } else if (url.match(/\.(mp3|wav|ogg)$/)) {
+            const audio = new Audio();
+            audio.oncanplaythrough = () => {
+                updateLoadingProgress();
+                resolve(url);
+            };
+            audio.onerror = () => {
+                console.warn(`Failed to load audio: ${url}`);
+                updateLoadingProgress();
+                resolve(url); // Resolve anyway to continue loading
+            };
+            audio.src = url;  // Load but do not play the audio here
+        } else {
+            updateLoadingProgress();
+            resolve(url); // For unsupported file types
+        }
+    });
 }
+
+
+function updateLoadingProgress() {
+    loadedAssets++;
+    const progress = (loadedAssets / totalAssets) * 100;
+    loadingProgress.style.width = `${progress}%`;
+    loadingProgress.textContent = `${Math.round(progress)}%`;
+}
+
+loadStoryData().then(() => {
+    console.log('Story data loaded successfully');
+    initAudioContext();
+    loadCharacterSounds();
+    startButton.disabled = false; // Enable the start button after data is loaded
+});
 
 // Load a chapter
 function loadChapter(chapterIndex) {
     const chapter = storyData.chapters[chapterIndex];
     currentSceneIndex = 0;
-    loadChapterBackgroundMusic(chapter.backgroundMusic);
+    stopCurrentBackgroundMusic(); // Stop current music
+    loadChapterBackgroundMusic(chapter.backgroundMusic); // Load new music
     loadScene(chapter.scenes[currentSceneIndex]);
-  }
+}
+
+function stopCurrentBackgroundMusic() {
+    if (currentChapterBackgroundMusic) {
+        try {
+            currentChapterBackgroundMusic.stop(); // Stop playback
+            currentChapterBackgroundMusic.disconnect(); // Disconnect the audio node from the destination
+            currentChapterBackgroundMusic = null; // Reset the reference
+            console.log('Stopped current chapter background music');
+        } catch (error) {
+            console.error('Error stopping background music:', error);
+        }
+    }
+}
+
 
 // Load a scene
 function loadScene(scene) {
@@ -104,35 +213,38 @@ function loadScene(scene) {
 
 // function to load chapter background music
 function loadChapterBackgroundMusic(musicUrl) {
-    if (!isAudioEnabled || !isMusicEnabled) return;
-  
+    if (!isAudioEnabled || !isMusicEnabled || !musicUrl) return;
+
     initAudioContext();
     
-    if (currentChapterBackgroundMusic) {
-      currentChapterBackgroundMusic.stop();
-    }
-  
+    // Ensure previous music is stopped
+    stopCurrentBackgroundMusic();
+
+    console.log(`Loading background music for Chapter ${currentChapterIndex + 1}: ${musicUrl}`);
+
     fetch(musicUrl)
-      .then(response => response.arrayBuffer())
-      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-      .then(audioBuffer => {
-        currentChapterBackgroundMusic = audioContext.createBufferSource();
-        currentChapterBackgroundMusic.buffer = audioBuffer;
-        currentChapterBackgroundMusic.connect(audioContext.destination);
-        currentChapterBackgroundMusic.loop = true;
-        currentChapterBackgroundMusic.start();
-      })
-      .catch(error => console.error('Error loading chapter background music:', error));
-  }
-
-
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        .then(audioBuffer => {
+            currentChapterBackgroundMusic = audioContext.createBufferSource();
+            currentChapterBackgroundMusic.buffer = audioBuffer;
+            currentChapterBackgroundMusic.connect(audioContext.destination);
+            currentChapterBackgroundMusic.loop = true;
+            currentChapterBackgroundMusic.start();
+            console.log(`Playing background music for Chapter ${currentChapterIndex + 1}`);
+        })
+        .catch(error => {
+            console.error('Error loading chapter background music:', error);
+            currentChapterBackgroundMusic = null; // Reset on error
+        });
+}
 
 // Initialize the story
 loadStoryData().then(() => {
-    console.log('Story data loaded successfully');
+    console.log('Story data loaded and assets preloaded successfully');
     initAudioContext();
     loadCharacterSounds();
-  });
+});
   
   // Initialize audio context
   function initAudioContext() {
@@ -143,6 +255,8 @@ loadStoryData().then(() => {
       updateMusicButtonIcons();
       updateDialogueButtonIcons();
   }
+
+
 
 // Update background with smooth transition
 function updateBackground(backgroundUrl) {
@@ -204,24 +318,12 @@ function displayDialogue(dialogue) {
 }
 
 
-// Play background music
-function playBackgroundMusic(musicUrl) {
-    if (!isMusicEnabled || !isAudioEnabled) return;
-
-    initAudioContext();
-    if (backgroundMusic) backgroundMusic.stop();
-
-    fetch(musicUrl)
-        .then(response => response.arrayBuffer())
-        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => {
-            backgroundMusic = audioContext.createBufferSource();
-            backgroundMusic.buffer = audioBuffer;
-            backgroundMusic.connect(audioContext.destination);
-            backgroundMusic.loop = true;
-            backgroundMusic.start();
-        })
-        .catch(error => console.error('Error loading background music:', error));
+// Start the story
+function startStory() {
+    storyContainer.classList.remove('hidden');
+    storyContainer.classList.add('fade-in');
+    stopCurrentBackgroundMusic(); // Ensure any intro music is stopped
+    loadChapter(currentChapterIndex);
 }
 
 // Navigation functions
@@ -232,8 +334,10 @@ function goToPreviousScene() {
         loadScene(storyData.chapters[currentChapterIndex].scenes[currentSceneIndex]);
     } else if (currentChapterIndex > 0) {
         currentChapterIndex--;
+        stopCurrentBackgroundMusic();
         const previousChapter = storyData.chapters[currentChapterIndex];
         currentSceneIndex = previousChapter.scenes.length - 1;
+        loadChapterBackgroundMusic(previousChapter.backgroundMusic);
         loadScene(previousChapter.scenes[currentSceneIndex]);
     }
 }
@@ -242,15 +346,16 @@ function goToNextScene() {
     clearTypingEffect();
     const currentChapter = storyData.chapters[currentChapterIndex];
     if (currentSceneIndex < currentChapter.scenes.length - 1) {
-      currentSceneIndex++;
-      loadScene(currentChapter.scenes[currentSceneIndex]);
+        currentSceneIndex++;
+        loadScene(currentChapter.scenes[currentSceneIndex]);
     } else if (currentChapterIndex < storyData.chapters.length - 1) {
-      currentChapterIndex++;
-      loadChapter(currentChapterIndex);
+        currentChapterIndex++;
+        stopCurrentBackgroundMusic();
+        loadChapter(currentChapterIndex);
     } else {
-      endStory();
+        endStory();
     }
-  }
+}
 
 function toggleAutoMode() {
     isAutoMode = !isAutoMode;
@@ -266,8 +371,16 @@ function toggleOptions() {
 }
 
 function goToHome() {
-    location.reload();
+    // Reset the chapter and scene index to ensure a fresh start
+    currentChapterIndex = 0;  // Reset to the first chapter
+    currentSceneIndex = 0;    // Reset to the first scene
+
+    stopCurrentBackgroundMusic();  // Stop any playing music
+    isFirstChapterMusicPlaying = false;  // Reset the flag to allow Chapter 1 music to play again
+
+    location.reload();  // Reload the page to go back to the home screen
 }
+
 
 function showCharacterInfo() {
     window.open(storyData.characterInfoUrl, '_blank');
