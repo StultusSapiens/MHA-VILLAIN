@@ -12,6 +12,9 @@ let characterSounds = {}; // Object to store character sound effects
 let isMusicEnabled = true; // Background music toggle
 let isDialogueEnabled = true; // Character dialogue toggle
 let currentCharacterAudio = null; // Store currently playing character sound
+let currentChapterBackgroundMusic;
+let overlayIframe;
+let isOverlayVisible = false;
 
 // DOM elements
 const introScreen = document.getElementById('intro-screen');
@@ -35,13 +38,12 @@ backButton.addEventListener('click', goToPreviousScene);
 autoButton.addEventListener('click', toggleAutoMode);
 toggleOptionsButton.addEventListener('click', toggleOptions);
 homeButton.addEventListener('click', goToHome);
-characterInfoButton.addEventListener('click', showCharacterInfo);
+characterInfoButton.addEventListener('click', () => showOverlay(storyData.characterInfoUrl));
 toggleAudioButton.addEventListener('click', toggleAudio);
 toggleMusicButton.addEventListener('click', toggleMusic);
 toggleDialogueButton.addEventListener('click', toggleDialogue);
 nextButton.addEventListener('click', () => {
   if (isTyping) {
-      // If typing is in progress, complete the current dialogue immediately
       clearTypingEffect();
       typewriter.textContent = storyData.chapters[currentChapterIndex].scenes[currentSceneIndex].dialogue.text;
       isTyping = false;
@@ -50,7 +52,11 @@ nextButton.addEventListener('click', () => {
   }
 });
 toggleAudioButton.addEventListener('click', toggleAudio);
-
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isOverlayVisible) {
+      closeOverlay();
+    }
+  });
 // Load story data from JSON
 async function loadStoryData() {
     try {
@@ -83,19 +89,60 @@ function startStory() {
 
 // Load a chapter
 function loadChapter(chapterIndex) {
-  const chapter = storyData.chapters[chapterIndex];
-  currentSceneIndex = 0;
-  loadBackgroundMusic(chapter.backgroundMusic);
-  loadScene(chapter.scenes[currentSceneIndex]);
-}
+    const chapter = storyData.chapters[chapterIndex];
+    currentSceneIndex = 0;
+    loadChapterBackgroundMusic(chapter.backgroundMusic);
+    loadScene(chapter.scenes[currentSceneIndex]);
+  }
 
 // Load a scene
 function loadScene(scene) {
     updateBackground(scene.background);
     updateCharacters(scene.characters);
     displayDialogue(scene.dialogue);
-    playBackgroundMusic(scene.backgroundMusic);
-}
+  }
+
+// function to load chapter background music
+function loadChapterBackgroundMusic(musicUrl) {
+    if (!isAudioEnabled || !isMusicEnabled) return;
+  
+    initAudioContext();
+    
+    if (currentChapterBackgroundMusic) {
+      currentChapterBackgroundMusic.stop();
+    }
+  
+    fetch(musicUrl)
+      .then(response => response.arrayBuffer())
+      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+      .then(audioBuffer => {
+        currentChapterBackgroundMusic = audioContext.createBufferSource();
+        currentChapterBackgroundMusic.buffer = audioBuffer;
+        currentChapterBackgroundMusic.connect(audioContext.destination);
+        currentChapterBackgroundMusic.loop = true;
+        currentChapterBackgroundMusic.start();
+      })
+      .catch(error => console.error('Error loading chapter background music:', error));
+  }
+
+
+
+// Initialize the story
+loadStoryData().then(() => {
+    console.log('Story data loaded successfully');
+    initAudioContext();
+    loadCharacterSounds();
+  });
+  
+  // Initialize audio context
+  function initAudioContext() {
+      if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      updateAudioButtonIcons();
+      updateMusicButtonIcons();
+      updateDialogueButtonIcons();
+  }
 
 // Update background with smooth transition
 function updateBackground(backgroundUrl) {
@@ -181,6 +228,7 @@ function playBackgroundMusic(musicUrl) {
 function goToPreviousScene() {
     if (currentSceneIndex > 0) {
         currentSceneIndex--;
+        nextButton.disabled = false;
         loadScene(storyData.chapters[currentChapterIndex].scenes[currentSceneIndex]);
     } else if (currentChapterIndex > 0) {
         currentChapterIndex--;
@@ -191,19 +239,18 @@ function goToPreviousScene() {
 }
 
 function goToNextScene() {
-  clearTypingEffect();
-  const currentChapter = storyData.chapters[currentChapterIndex];
-  if (currentSceneIndex < currentChapter.scenes.length - 1) {
+    clearTypingEffect();
+    const currentChapter = storyData.chapters[currentChapterIndex];
+    if (currentSceneIndex < currentChapter.scenes.length - 1) {
       currentSceneIndex++;
       loadScene(currentChapter.scenes[currentSceneIndex]);
-  } else if (currentChapterIndex < storyData.chapters.length - 1) {
+    } else if (currentChapterIndex < storyData.chapters.length - 1) {
       currentChapterIndex++;
-      currentSceneIndex = 0;
       loadChapter(currentChapterIndex);
-  } else {
+    } else {
       endStory();
+    }
   }
-}
 
 function toggleAutoMode() {
     isAutoMode = !isAutoMode;
@@ -230,28 +277,34 @@ function showCharacterInfo() {
 function toggleAudio() {
     isAudioEnabled = !isAudioEnabled;
     if (isAudioEnabled) {
-        audioContext.resume();
-        if (backgroundMusic && isMusicEnabled) backgroundMusic.start();
+      audioContext.resume();
+      if (currentChapterBackgroundMusic && isMusicEnabled) currentChapterBackgroundMusic.connect(audioContext.destination);
+      if (currentCharacterAudio) currentCharacterAudio.connect(audioContext.destination);
     } else {
-        audioContext.suspend();
-        if (backgroundMusic) backgroundMusic.stop();
-        if (currentCharacterAudio) currentCharacterAudio.stop();
+      audioContext.suspend();
+      if (currentChapterBackgroundMusic) currentChapterBackgroundMusic.disconnect(audioContext.destination);
+      if (currentCharacterAudio) currentCharacterAudio.disconnect(audioContext.destination);
     }
     updateAudioButtonIcons();
-}
+  }
 
 function toggleMusic() {
     isMusicEnabled = !isMusicEnabled;
-    if (isMusicEnabled && isAudioEnabled && backgroundMusic) {
-        backgroundMusic.start();
-    } else if (backgroundMusic) {
-        backgroundMusic.stop();
+    if (isMusicEnabled && isAudioEnabled && currentChapterBackgroundMusic) {
+      currentChapterBackgroundMusic.connect(audioContext.destination);
+    } else if (currentChapterBackgroundMusic) {
+      currentChapterBackgroundMusic.disconnect(audioContext.destination);
     }
     updateMusicButtonIcons();
-}
+  }
 
 function toggleDialogue() {
     isDialogueEnabled = !isDialogueEnabled;
+    if (isDialogueEnabled && isAudioEnabled && currentCharacterAudio) {
+        currentCharacterAudio.connect(audioContext.destination);
+    } else if (currentCharacterAudio) {
+        currentCharacterAudio.disconnect(audioContext.destination);
+    }
     updateDialogueButtonIcons();
 }
 
@@ -351,57 +404,128 @@ function updateDialogueButtonIcons() {
         </svg>`;
 }
 
+// Function to create and show overlay
+function showOverlay(url) {
+    if (!overlayIframe) {
+      createOverlayElements();
+      console.log("overlay created");
+    }
+  
+    if (!isOverlayVisible) {
+      overlayIframe.src = url;
+      openOverlay();
+      console.log("overlay opened");
+  
+      // Add a small delay before adding the click event listener
+      setTimeout(() => {
+        document.addEventListener('click', handleOutsideClick);
+      }, 100);
+    }
+  }
+  
+  function handleOutsideClick(e) {
+    if (isOverlayVisible && !overlayIframe.contains(e.target) && !e.target.classList.contains('overlay-button')) {
+      closeOverlay();
+      console.log("clicked outside of overlay");
+      document.removeEventListener('click', handleOutsideClick);
+    }
+  }
+
+function createOverlayElements() {
+    // Create iframe for overlay
+    overlayIframe = document.createElement('iframe');
+    overlayIframe.className = 'overlay-iframe glassmorphism';
+    document.body.appendChild(overlayIframe);
+
+    // Create close button for overlay
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '&times;';
+    closeButton.className = 'close-overlay-button';
+    closeButton.addEventListener('click', closeOverlay);
+    document.body.appendChild(closeButton);
+
+    // Prevent the iframe from closing when clicked inside
+    overlayIframe.addEventListener('load', () => {
+        overlayIframe.contentWindow.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent closing the overlay when clicking inside the iframe
+        });
+    });
+
+    // Handle click events outside the overlay to close it
+    document.addEventListener('click', (e) => {
+        if (isOverlayVisible && !overlayIframe.contains(e.target) && e.target !== closeButton) {
+            closeOverlay();
+            
+        console.log("clicked outside of overlay");
+        }
+    });
+}
+  
+
+// Open overlay with animation
+function openOverlay() {
+    isOverlayVisible = true;
+    overlayIframe.style.display = 'block';
+    document.querySelector('.close-overlay-button').style.display = 'block';
+    setTimeout(() => {
+        overlayIframe.style.opacity = '1';
+        overlayIframe.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 50);
+}
+  
+ // Close overlay with animation
+ function closeOverlay() {
+    isOverlayVisible = false;
+    overlayIframe.style.opacity = '0';
+    overlayIframe.style.transform = 'translate(-50%, -50%) scale(0.9)';
+    setTimeout(() => {
+      overlayIframe.style.display = 'none';
+      overlayIframe.src = ''; // Clear iframe content
+    }, 500);
+    document.querySelector('.close-overlay-button').style.display = 'none';
+    
+    console.log("overlay closed");
+    document.removeEventListener('click', handleOutsideClick);
+  }
+
+  
+// Event listener for character info button
+document.addEventListener('DOMContentLoaded', () => {
+    const characterInfoButton = document.getElementById('character-info-button');
+    if (characterInfoButton) {
+        characterInfoButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent accidental closing of the overlay
+            if (storyData && storyData.characterInfoUrl) {
+                showOverlay(storyData.characterInfoUrl);
+            } else {
+                console.error('Character info URL is not defined in storyData');
+            }
+        });
+    }
+});
+  
+  // Function to end the story
 function endStory() {
-  // Create a button element
+  const typewriter = document.getElementById('typewriter');
+  typewriter.innerHTML = '<p>What will you do as your journey continues beyond these pages...?</p>';
+
+  // Create button to show credits overlay
   const creditsButton = document.createElement('button');
   creditsButton.textContent = 'View Credits';
-  creditsButton.className = 'credits-button';
-  
-  // Set the button's click event to redirect
-  creditsButton.onclick = function() {
-      window.location.href = storyData.creditsUrl;
+  creditsButton.className = 'neon-button overlay-button';
+  typewriter.appendChild(creditsButton);   
+  creditsButton.onclick = (e) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+    showOverlay(storyData.creditsUrl);
   };
 
-  // Clear the existing content and append the button
-  const typewriter = document.getElementById('typewriter'); // Make sure to use the correct element ID
-  typewriter.innerHTML = '<p>The story has ended.</p>';
-  typewriter.appendChild(creditsButton);
-  
   // Disable the next button
   nextButton.disabled = true;
 }
+  
+  
 
-// Initialize the story
-loadStoryData().then(() => {
-  console.log('Story data loaded successfully');
-  initAudioContext();
-  loadCharacterSounds();
-  animateBackgroundOrbs();
-});
+  // Update character info button click event
+  characterInfoButton.onclick = () => showOverlay(storyData.characterInfoUrl, 'Character Info');
 
-// Initialize audio context
-function initAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    updateAudioButtonIcons();
-    updateMusicButtonIcons();
-    updateDialogueButtonIcons();
-}
-// Animate background orbs
-function animateBackgroundOrbs() {
-    const orbs = document.querySelectorAll('.orb');
-    orbs.forEach((orb, index) => {
-        orb.style.animation = `float ${20 + index * 5}s ease-in-out infinite`;
-        orb.style.animationDelay = `${index * 2}s`;
-    });
-}
-
-// Add smooth scrolling to credits link
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.classList.contains('credits-link')) {
-        e.preventDefault();
-        const href = e.target.getAttribute('href');
-        window.open(href, '_blank');
-    }
-});
+  

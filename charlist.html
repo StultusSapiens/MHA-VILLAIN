@@ -44,6 +44,8 @@
             overflow: hidden;
             transition: all 0.5s ease;
             cursor: pointer;
+            text-decoration: none;
+            display: block;
         }
 
         .box::before {
@@ -99,30 +101,14 @@
         }
     </style>
 </head>
-<body>
-    <button id="back-button" style="position: fixed; top: 20px; right: 20px;">Back</button>
+<body style="background-image: url(images/CH/Chapter_39_29.webp); background-size: cover; background-position: center;">
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url(images/CH/Chapter_39_29.webp); background-size: cover; background-position: center; filter: blur(5px); background-color: rgba(0, 0, 0, 0.5);"></div>
     <div class="container">
-        <a href="https://example.com/renji" class="box" style="background-image: url(https://i.postimg.cc/sgBkfbtx/img-1.jpg);" data-text="Renji"></a>
-        <a href="https://example.com/sora" class="box" style="background-image: url(https://i.postimg.cc/3RZ6bhDS/img-2.jpg);" data-text="Sora"></a>
-        <a href="https://example.com/kaito" class="box" style="background-image: url(https://i.postimg.cc/DZhHg0m4/img-3.jpg);" data-text="Kaito"></a>
-        <a href="https://example.com/tsuki" class="box" style="background-image: url(https://i.postimg.cc/KjqWx5ft/img-4.jpg);" data-text="Tsuki"></a>
-        <a href="https://example.com/mitsui" class="box" style="background-image: url(https://i.postimg.cc/nrcWyW4H/img-5.jpg);" data-text="Mitsui"></a>
+        <a href="https://myheroacademia.fandom.com/wiki/Dabi" target="_blank" class="box" style="background-image: url(https://static.wikia.nocookie.net/bokunoheroacademia/images/b/bd/Dabi_Anime_Portrait.png);" data-text="Dabi"></a>
+        <a href="https://myheroacademia.fandom.com/wiki/Himiko_Toga" target="_blank" class="box" style="background-image: url(https://static.wikia.nocookie.net/bokunoheroacademia/images/5/51/Himiko_Toga_Anime_Portrait.png);" data-text="Himiko Toga"></a>
+        <a href="https://myheroacademia.fandom.com/wiki/Jin_Bubaigawara" target="_blank" class="box" style="background-image: url(https://static.wikia.nocookie.net/bokunoheroacademia/images/1/12/Twice_Anime_Portrait.png);" data-text="Twice"></a>
+        <a href="https://myheroacademia.fandom.com/wiki/Shuichi_Iguchi" target="_blank" class="box" style="background-image: url(https://static.wikia.nocookie.net/bokunoheroacademia/images/9/95/Spinner_Anime_Portrait.png);" data-text="Spinner"></a>
+        <a href="https://myheroacademia.fandom.com/wiki/Atsuhiro_Sako" target="_blank" class="box" style="background-image: url(https://static.wikia.nocookie.net/bokunoheroacademia/images/9/95/Mr_Compress_Anime_Portrait.png);" data-text="Mr Compress"></a>
     </div>
-
-    <script>
-        document.getElementById('back-button').addEventListener('click', function() {
-        history.back();
-        });
-        document.querySelectorAll('.box').forEach(box => {
-            box.addEventListener('mousemove', (e) => {
-                const rect = box.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                box.style.setProperty('--mouse-x', `${x}px`);
-                box.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-    </script>
 </body>
 </html>

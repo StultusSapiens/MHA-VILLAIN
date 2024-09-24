@@ -1,8 +1,8 @@
 {
   "uiConfig": {
-    "primaryColor": "#4a90e2",
+    "primaryColor": "red",
     "backgroundColor": "black",
-    "textColor": "#ffffff",
+    "textColor": "red",
     "fontFamily": "Arial, sans-serif",
     "typingSpeed": 20,
     "autoModeDelay": 3000
@@ -52,13 +52,12 @@
         {
           "background": "images/SC1.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
             "text": "In a world of bright heroes, you lie in a hospital bed, the relentless beeping of machines a stark reminder of your fate. You sacrificed everything, saving a stranger, only to be shackled by a terminal illness—a cruel twist of irony."
-          },
-          "soundEffects": ["audio/SFX/beeping.mp3"]
+          }
         },
         {
           "background": "images/SC1a.jpg",
@@ -83,7 +82,7 @@
         {
           "background": "images/SC1a.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
@@ -94,12 +93,12 @@
     },
     {
       "title": "Chapter 2: The New Beginning",
-      "backgroundMusic": "audio/BGM/chapter2_bgm.mp3",
+      "backgroundMusic": "audio/CH/AFOTHEME.mp3",
       "scenes": [
         {
           "background": "images/SC2.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
@@ -170,7 +169,7 @@
         {
           "background": "images/SC2.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
@@ -181,12 +180,12 @@
     },
     {
       "title": "Chapter 3: The Infiltration",
-      "backgroundMusic": "audio/BGM/chapter3_bgm.mp3",
+      "backgroundMusic": "audio/CH/You Say Run.mp3",
       "scenes": [
         {
-          "background": "images/SC3a.jpg",
+          "background": "images/SC3.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
@@ -195,9 +194,9 @@
           "soundEffects": ["audio/SFX/stealth.mp3"]
         },
         {
-          "background": "images/SC3b.jpg",
+          "background": "images/SC3.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
@@ -205,9 +204,9 @@
           }
         },
         {
-          "background": "images/SC3b.jpg",
+          "background": "images/SC3.jpg",
           "characters": [
-            {"name": "Dabi", "image": "images/CH/Dabi1.png"}
+            {"name": "Dabi", "image": "images/CH/Dabi2.png"}
           ],
           "dialogue": {
             "speaker": "Dabi",
@@ -217,7 +216,7 @@
         {
           "background": "images/SC3b.jpg",
           "characters": [
-            {"name": "Himiko", "image": "images/CH/Himiko1.png"}
+            {"name": "Himiko", "image": "images/CH/Himiko2.png"}
           ],
           "dialogue": {
             "speaker": "Himiko",
@@ -235,7 +234,7 @@
           }
         },
         {
-          "background": "images/SC3c.jpg",
+          "background": "images/SC3b.jpg",
           "characters": [
             {"name": "Izuku Midoriya", "image": "images/CH/Midoriya1.png"}
           ],
@@ -246,9 +245,9 @@
           "soundEffects": ["audio/SFX/intense_music.mp3"]
         },
         {
-          "background": "images/SC3c.jpg",
+          "background": "images/SC3b.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
@@ -256,9 +255,9 @@
           }
         },
         {
-          "background": "images/SC3c.jpg",
+          "background": "images/SC3b.jpg",
           "characters": [
-            {"name": "Narrator", "image": null}
+            {"name": "Narrator", "image": "images/CH/N.gif"}
           ],
           "dialogue": {
             "speaker": "Narrator",
