@@ -4,7 +4,7 @@
     "backgroundColor": "black",
     "textColor": "red",
     "fontFamily": "Arial, sans-serif",
-    "typingSpeed": 20,
+    "typingSpeed": 30,
     "autoModeDelay": 3000
   },
   "characters": [
@@ -45,6 +45,21 @@
     }
   ],
   "chapters": [
+    {
+      "title": "Chapter 0: TUTORIAL",
+      "scenes": [
+        {
+          "background": "images/AI.gif",
+          "characters": [
+            {"name": "Narrator", "image": "images/CH/N.gif"}
+          ],
+          "dialogue": {
+            "speaker": "Narrator",
+            "text": "Get started! Use ‣ AUTO for auto scene change, LEFT/RIGHT icon for manual navigation, and toggle music/voice on the top bar. Explore character profiles and return to the home screen via the options menu"
+          }
+        }
+      ]
+    },
     {
       "title": "Chapter 1: The Unfair Fate",
       "backgroundMusic": "audio/CH/heartrate.wav",

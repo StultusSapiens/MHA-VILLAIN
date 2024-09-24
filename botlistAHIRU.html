@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyland Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+    --primary-color: #108064; /* Deep Plum */
+    --secondary-color: #06bd58; /* Dark Teal */
+    --background-color: #0D0D0D; /* Pitch Black */
+    --text-color: #D3D3D3; /* Soft Gray */
+    --card-bg: #242e27; /* Charcoal Gray */
+    --hover-color: #00ff6a; /* Blood Red */
+}
+
+
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+            border-radius: 15px;
+            background: 
+                linear-gradient(-45deg, rgba(17, 11, 11, 0.342), rgba(0, 0, 0, 0.699)), /* Adjust the colors and transparency */
+                url('https://64.media.tumblr.com/3773542c0b780e339bc65cbe6826d0b7/tumblr_oh7wj6nV3x1vysie1o1_500.gif'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--text-color);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-info {
+            flex-grow: 1;
+            margin-left: 2rem;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .profile-username {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .profile-bio {
+            margin-top: 1rem;
+            font-size: 1rem;
+            max-width: 600px;
+            color: var(--text-color);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            margin: 0.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 255, 138, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .bots-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            color: var(--text-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .bot-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .bot-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .bot-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(99, 255, 216, 0.3);
+        }
+
+        .bot-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .bot-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .bot-info {
+            padding: 1.5rem;
+        }
+
+        .bot-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .bot-category {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .bot-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .bot-stat {
+            display: flex;
+            align-items: center;
+        }
+
+        .bot-stat i {
+            margin-right: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .bot-intro {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(34, 122, 50, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: var(--text-color);
+        }
+
+        .bot-card:hover .bot-intro {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulsing {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-info {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .stat {
+                margin-bottom: 1rem;
+            }
+        }
+
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 4px solid var(--text-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+    <div class="container">
+        <header class="profile-header">
+            <img src="/api/placeholder/150" alt="Profile Avatar" class="profile-avatar floating">
+            <div class="profile-info">
+                <h1 class="profile-name">Theodorus</h1>
+                <p class="profile-bio">Passionate bot creator and AI enthusiast. Bringing digital companions to life, one line of code at a time.</p>
+            </div>
+        </header>
+
+        <section class="stats">
+            <div class="stat">
+                <div class="stat-value" id="bots-count">15</div>
+                <div class="stat-label">Bots Created</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" style="color: white;">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</div>
+                <div class="stat-label">YOU CAN REQUEST BOTS ON DISCORD</div>
+                <a href="https://discord.com/users/1126684688564621332" target="_blank" rel="noopener noreferrer" class="profile-username">@ahirudo</a>
+            </div>
+            <div class="stat" style="animation-delay: 2s;">
+                <div class="stat-value" id="total-likes">0</div>
+                <div class="stat-label">Total Likes</div>
+            </div>
+        </section>
+
+        <section class="bots-section">
+            <h2 class="section-title">My Bots</h2>
+            <div class="bot-cards" id="bot-cards">
+                <!-- Bot cards will be dynamically inserted here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const userId = '8Ad2r';
+        let profileData, botsData, favoritesData;
+
+        function generateFingerprint() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+
+        async function fetchData(url) {
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json, text/plain, */*',
+                    'Accept-Language': 'en',
+                    'DNT': '1',
+                    'Fingerprint': generateFingerprint(),
+                    'Origin': 'https://www.joyland.ai',
+                    'Referer': 'https://www.joyland.ai/'
+                }
+            };
+
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error(`Error fetching data from ${url}:`, error);
+                return null;
+            }
+        }
+
+        async function loadData() {
+            profileData = await fetchData(`https://api.joyland.ai/profile/info?userId=${userId}`);
+            botsData = await fetchData(`https://api.joyland.ai/profile/public-bots?userId=${userId}`);
+            favoritesData = await fetchData(`https://api.joyland.ai/profile/favorites?userId=${userId}`);
+
+            if (profileData && profileData.result) {
+                updateProfileInfo(profileData.result);
+            }
+
+            if (botsData && botsData.result) {
+                updateBotCards(botsData.result);
+                document.getElementById('bots-count').textContent = botsData.result.length;
+                
+                // Calculate total likes
+                const totalLikes = botsData.result.reduce((sum, bot) => {
+                const likes = Number(bot.botLikes);
+                return isNaN(likes) ? sum : sum + likes;
+                    }, 0);
+
+                // Format the total likes before storing it in the element
+                document.getElementById('total-likes').textContent = formatNumber(totalLikes);
+            }
+
+            if (favoritesData && favoritesData.result && favoritesData.result.favorites) {
+                document.getElementById('favorites-count').textContent = favoritesData.result.favorites.length;
+            }
+
+            // Hide loading overlay
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+
+        function formatNumber(value) {
+    if (value >= 1000) {
+        return ((value) / 1000).toFixed(2) + 'k'; // Round down and show one decimal place (e.g., 1.9 for 1960)
+    }
+    return value.toString(); // Return as string if less than 1000
+}
+
+        function updateProfileInfo(profile) {
+            document.querySelector('.profile-avatar').src = profile.avatar || '/api/placeholder/150';
+            document.querySelector('.profile-header').src = profile.headImg || '/api/placeholder/150';
+            document.querySelector('.profile-name').textContent = profile.name || 'Name not available';
+            document.querySelector('.profile-username').textContent = `@${profile.username || 'ahirudo'}`;
+            document.querySelector('.profile-bio').textContent = profile.bio || '';
+        }
+
+        function updateBotCards(bots) {
+            const botCardsEl = document.getElementById('bot-cards');
+            botCardsEl.innerHTML = bots.map(bot => `
+                <div class="bot-card" onclick="window.open('https://www.joyland.ai/chat?botId=${bot.botId}', '_blank');">
+                    <img src="${bot.avatar || '/api/placeholder/300/200'}" alt="${bot.characterName}">
+                    <div class="bot-info">
+                        <div class="bot-name">${bot.characterName}</div>
+                        <div class="bot-category">${bot.categoryName}</div>
+                        <div class="bot-stats">
+                            <div class="bot-stat">
+                                <i class="fas fa-comment"></i>
+                                ${bot.botChats}
+                            </div>
+                            <div class="bot-stat">
+                                <i class="fas fa-heart"></i>
+                                ${bot.botLikes}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bot-intro">${bot.introduce}</div>
+                </div>
+            `).join('');
+        }
+
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

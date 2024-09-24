@@ -173,6 +173,67 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
+        .creator-iframe-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        }
+
+        .creator-iframe {
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+        }
+
+        .creator-iframe-container.active {
+        opacity: 1;
+        visibility: visible;
+        }
+
+        .creator-iframe-container.active .creator-iframe {
+        transform: translateX(0);
+        }
+
+        .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: rgba(30, 30, 30, 0.6);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        }
+
+        .back-button:hover {
+        transform: scale(1.1);
+        }
+
+        .back-button svg {
+        transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+        transform: translateX(-2px);
+        }
+
+
         @media (max-width: 768px) {
             .creators-container {
                 flex-direction: column;
@@ -222,8 +283,16 @@
                         <p class="creator-title">😊Your Friendly Neighborhood BOT Pimp😊</p>
                     </div>
                 </div>
+                <div class="creator-iframe-container">
+                    <iframe class="creator-iframe" src="" frameborder="0"></iframe>
+                    <button class="back-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15 18L9 12L15 6" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                </div>
                 <p class="creator-bio villain-bio">Ah, my devoted minions. I am the mastermind orchestrating chaos from the shadows. My schemes are as intricate as they are malevolent, destined to strike fear into the hearts of the weak. Join me, and together, we shall bring this world to its knees under our dominion!</p>
-                <a href="https://www.joyland.ai/profile?userId=lMjZp&ref=lMjZp" class="creator-link villain-link">Join the villain</a>
+                <p class="creator-link villain-link">Join the villain</p>
             </div>
             <div class="creator-card hero-card">
                 <div class="creator-header">
@@ -233,12 +302,47 @@
                         <p class="creator-title">⧼ Discord: @ahirudo ⧽</p>
                     </div>
                 </div>
+                <div class="creator-iframe-container">
+                    <iframe class="creator-iframe" src="" frameborder="0"></iframe>
+                    <button class="back-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15 18L9 12L15 6" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
                 <p class="creator-bio hero-bio">Hello, everyone. I stand here as a beacon of hope and strength. Together, we can rise against darkness and protect those who cannot protect themselves. Join me, and let's fight for a brighter future, where every hero can shine!</p>
-                <a href="https://www.joyland.ai/profile?userId=8Ad2r&ref=lMjZp" class="creator-link hero-link">Join the Hero</a>
+                <p class="creator-link hero-link">Join the Hero</p>
             </div>
         </div>
     </div>
     <script>
+        const villainLink = document.querySelector('.villain-link');
+        const heroLink = document.querySelector('.hero-link');
+        const villainIframe = document.querySelector('.villain-card .creator-iframe');
+        const heroIframe = document.querySelector('.hero-card .creator-iframe');
+        const villainIframeContainer = document.querySelector('.villain-card .creator-iframe-container');
+        const heroIframeContainer = document.querySelector('.hero-card .creator-iframe-container');
+        const villainBackButton = document.querySelector('.villain-card .back-button');
+        const heroBackButton = document.querySelector('.hero-card .back-button');
+
+        villainLink.addEventListener('click', () => {
+        villainIframe.src = 'botlist.html';
+        villainIframeContainer.classList.add('active');
+        });
+
+        heroLink.addEventListener('click', () => {
+        heroIframe.src = 'botlistAHIRU.html';
+        heroIframeContainer.classList.add('active');
+        });
+
+        villainBackButton.addEventListener('click', () => {
+        villainIframeContainer.classList.remove('active');
+        });
+
+        heroBackButton.addEventListener('click', () => {
+        heroIframeContainer.classList.remove('active');
+        });
+
         window.addEventListener('load', () => {
             gsap.to('.creator-card', {
                 duration: 1.2,
