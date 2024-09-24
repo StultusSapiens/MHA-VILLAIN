@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #4ecdc4;
-  --secondary-color: #ff6b6b;
+  --primary-color: #ec000c;
+  --secondary-color: #fff300;
   --bg-color: #1a1a2e;
   --text-color: #ffffff;
   --glass-bg: rgba(255, 255, 255, 0.1);
@@ -27,54 +27,24 @@ body, html {
   overflow: hidden;
 }
 
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-}
-
-.orb:nth-child(1) {
-  top: -10%;
-  left: -10%;
-  width: 500px;
-  height: 500px;
-  background-color: var(--primary-color);
-  animation: float 20s ease-in-out infinite;
-}
-
-.orb:nth-child(2) {
-  bottom: -15%;
-  right: -15%;
-  width: 600px;
-  height: 600px;
-  background-color: var(--secondary-color);
-  animation: float 25s ease-in-out infinite reverse;
-}
-
-.orb:nth-child(3) {
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  height: 400px;
-  background-color: #a3a3ff;
-  animation: float 18s ease-in-out infinite;
-}
-
-@keyframes float {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(100px, 100px) rotate(180deg); }
-  100% { transform: translate(0, 0) rotate(360deg); }
-}
-
 .glassmorphism {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--glass-bg));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), var(--glass-bg));
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 #intro-screen {
+  background-image: url('images/intro-background.jpg');
+  background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -85,14 +55,14 @@ body, html {
 }
 
 .logo {
-  margin-bottom: 2rem;
+  margin: 4rem;
   animation: pulse 3s infinite;
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  0% { transform: scale(1.5); }
+  50% { transform: scale(1.55); }
+  100% { transform: scale(1.5); }
 }
 
 .glow-text {
@@ -115,8 +85,11 @@ body, html {
 .neon-button {
   padding: 0.75rem 2rem;
   font-size: 1.2rem;
+  font-weight: bold;
   color: var(--primary-color);
   background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 2px solid var(--primary-color);
   border-radius: 50px;
   cursor: pointer;
@@ -185,6 +158,7 @@ body, html {
   margin-top: 0.5rem;
   padding: 0.5rem;
   min-width: 150px;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .dropdown-menu button {
@@ -223,33 +197,36 @@ body, html {
   background-size: cover;
   background-position: center;
   transition: opacity 1s ease;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
-    pointer-events: none;
-  }
+}
+
+.story-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+  pointer-events: none;
 }
 
 .character-container {
   position: absolute;
-  bottom: 0;
-  right: 50%;
-  transform: translateX(0);
+  bottom: 0; /* Adjust this value to create space above the dialogue box */
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
   width: 100%;
-  height: 80vh;
+  height: 75vh; /* Set the container height to 75% of viewport height */
 }
 
 .character-image {
-  max-height: 100%;
-  max-width: 100%;
+  margin-top: 4rem;
+  height: 100%; /* Set the image height to 100% of its container */
+  width: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Ensure it doesn't exceed the container width */
   object-fit: contain;
   transition: opacity 0.5s ease, transform 0.5s ease;
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
@@ -267,6 +244,7 @@ body, html {
     transform: translateY(0) rotateY(0);
   }
 }
+
 .dialogue-container {
   position: absolute;
   bottom: 2rem;
@@ -275,6 +253,8 @@ body, html {
   width: 80%;
   max-width: 800px;
   padding: 1.5rem;
+  max-height: 30vh; /* Limit the height to create space for the character */
+  overflow-y: auto; /* Add scrolling if content exceeds max-height */
 }
 
 .character-name {
@@ -314,6 +294,64 @@ body, html {
   transform: scale(1.1);
 }
 
+.overlay-iframe {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 90%;
+  height: 90%;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  z-index: 1000;
+  display: none;
+}
+
+.overlay-iframe:not(.hidden) {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  display: block;
+}
+
+.overlay-button {
+  margin-top: 20px;
+}
+
+.overlay-iframe:not(.hidden) {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.close-overlay-button {
+  position: fixed;
+  top: 90px; /* Slightly below the nav bar */
+  right: calc(5% + 10px); /* Aligned with the right edge of the iframe */
+  background: var(--primary-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1001;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  display: none;
+}
+
+.close-overlay-button:not(.hidden) {
+  opacity: 1;
+}
+
+.close-overlay-button:hover {
+  transform: scale(1.1);
+}
+
 .hidden {
   display: none;
 }
@@ -324,13 +362,20 @@ body, html {
       font-size: 2rem;
   }
 
+  .character-container {
+    height: 60vh; /* Reduce height on smaller screens */
+    bottom: 25%; /* Adjust positioning on smaller screens */
+  }
+
   .neon-button {
       font-size: 1rem;
   }
 
   .dialogue-container {
-      width: 90%;
+    width: 90%;
+    max-height: 35vh; /* Increase max-height slightly on smaller screens */
   }
+
 
   .character-name {
       font-size: 1.2rem;

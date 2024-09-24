@@ -14,20 +14,21 @@
             font-family: 'Inter', sans-serif;
             background-color: #0a0a0a;
             color: #e0e0e0;
-            overflow-x: hidden;
+            overflow: auto;
         }
         .credits-page {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.9)), url('/api/placeholder/1920/1080') center/cover no-repeat fixed;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.9)), url('images/VVH.png') center/cover no-repeat fixed;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 2rem;
+            box-sizing: border-box;
         }
         .creators-container {
             display: flex;
             justify-content: space-between;
-            max-width: 1600px;
+            max-width: 100%;
             width: 100%;
         }
         .creator-card {
@@ -44,13 +45,17 @@
             opacity: 0;
         }
         .villain-card {
-            background: linear-gradient(135deg, rgba(30, 0, 0, 0.6), rgba(0, 0, 30, 0.6));
+            background: 
+            linear-gradient(135deg, rgba(30, 0, 0, 0.6), rgba(0, 0, 30, 0.6)),
+            url('images/CH/Villains.png') center/cover no-repeat;
             border-left: 4px solid #8b0000;
         }
         .hero-card {
-            background: linear-gradient(135deg, rgba(0, 30, 0, 0.6), rgba(0, 0, 30, 0.6));
-            border-right: 4px solid #00688b;
-        }
+    background: 
+      linear-gradient(135deg, rgba(0, 30, 0, 0.6), rgba(0, 0, 30, 0.6)),
+      url('images/CH/Heros.png') center/cover no-repeat;
+    border-right: 4px solid #00688b;
+}
         .creator-header {
             display: flex;
             flex-direction: column;
@@ -59,10 +64,10 @@
             text-align: center;
         }
         .creator-pfp {
-            width: 250px;
-            height: 250px;
+            width: 150px;
+            height: 150px;
             border-radius: 100%;
-            background: url('/api/placeholder/150/150') center/cover no-repeat;
+            background: url('https://s3.us-west-1.amazonaws.com/ai-character/uploaded/c/image/1725041744153_d44c5451.webp') center/cover no-repeat;
             margin-bottom: 1rem;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             transition: transform 0.5s ease, box-shadow 0.5s ease;
@@ -80,7 +85,7 @@
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
         }
         .creator-info h2 {
-            font-size: 1.8em;
+            font-size: 1.5em;
             margin: 0;
             color: #ffffff;
             font-weight: 700;
@@ -88,14 +93,14 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         .creator-title {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: #b0b0b0;
             margin-top: 0.5rem;
             font-weight: 400;
             letter-spacing: 0.5px;
         }
         .creator-bio {
-            font-size: 0.85em;
+            font-size: 0.8em;
             line-height: 1.6;
             margin-bottom: 1.5rem;
             padding: 15px;
@@ -132,6 +137,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            font-size: 0.8em;
         }
         .villain-link {
             background-color: #8b0000;
@@ -167,42 +173,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        @media (max-width: 1920px) {
-            .credits-page {
-                background-size: cover;
-            }
-
-            .creators-container {
-                max-width: 1600px;
-            }
-
-            .creator-card {
-                width: 48%;
-            }
-
-            .creator-pfp {
-                width: 250px;
-                height: 250px;
-            }
-
-            .creator-info h2 {
-                font-size: 1.8em;
-            }
-
-            .creator-title {
-                font-size: 0.9em;
-            }
-
-            .creator-bio {
-                font-size: 0.85em;
-            }
-
-            .creator-link {
-                padding: 8px 18px;
-                font-size: 0.9em;
-            }
-        }
-
         @media (max-width: 768px) {
             .creators-container {
                 flex-direction: column;
@@ -211,6 +181,32 @@
             .creator-card {
                 width: 90%;
                 margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .credits-page {
+                padding: 1rem;
+            }
+            .creator-card {
+                padding: 1rem;
+            }
+            .creator-pfp {
+                width: 100px;
+                height: 100px;
+            }
+            .creator-info h2 {
+                font-size: 1.2em;
+            }
+            .creator-title {
+                font-size: 0.7em;
+            }
+            .creator-bio {
+                font-size: 0.75em;
+            }
+            .creator-link {
+                padding: 6px 14px;
+                font-size: 0.75em;
             }
         }
     </style>
@@ -222,12 +218,12 @@
                 <div class="creator-header">
                     <div class="creator-pfp villain-pfp"></div>
                     <div class="creator-info">
-                        <h2>🅷🆄🅼🅰🅽</h2>
+                        <h2 style="color: rgb(255, 0, 0);">🅷🆄🅼🅰🅽</h2>
                         <p class="creator-title">😊Your Friendly Neighborhood BOT Pimp😊</p>
                     </div>
                 </div>
                 <p class="creator-bio villain-bio">Ah, my devoted minions. I am the mastermind orchestrating chaos from the shadows. My schemes are as intricate as they are malevolent, destined to strike fear into the hearts of the weak. Join me, and together, we shall bring this world to its knees under our dominion!</p>
-                <a href="#" class="creator-link villain-link">Join the villain</a>
+                <a href="https://www.joyland.ai/profile?userId=lMjZp&ref=lMjZp" class="creator-link villain-link">Join the villain</a>
             </div>
             <div class="creator-card hero-card">
                 <div class="creator-header">
@@ -238,7 +234,7 @@
                     </div>
                 </div>
                 <p class="creator-bio hero-bio">Hello, everyone. I stand here as a beacon of hope and strength. Together, we can rise against darkness and protect those who cannot protect themselves. Join me, and let's fight for a brighter future, where every hero can shine!</p>
-                <a href="#" class="creator-link hero-link">Join the Hero</a>
+                <a href="https://www.joyland.ai/profile?userId=8Ad2r&ref=lMjZp" class="creator-link hero-link">Join the Hero</a>
             </div>
         </div>
     </div>
