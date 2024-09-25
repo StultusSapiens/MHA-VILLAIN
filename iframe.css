@@ -1,6 +1,6 @@
 /* Base iframe styles */
 iframe {
-    min-height: 400px;
+    min-height: 500px;
     height: 100%;
     width: 100%;
     border: none;
@@ -22,7 +22,7 @@ iframe {
     display: block;
     padding-top: calc(30vh + 24px); /* Maintains aspect ratio */
     min-height: 324px;
-    max-height: 500px;
+    max-height: 720px;
 }
 
 /* Greeting iframe styles */
