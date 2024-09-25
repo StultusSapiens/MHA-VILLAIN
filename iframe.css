@@ -20,8 +20,8 @@
 .iframe-parent::before {
     content: "";
     display: block;
-    min-height: 500px;
-    max-height: 720px;
+    min-height: 600px;
+    max-height: 1000px;
 }
 
 /* Greeting iframe styles */
