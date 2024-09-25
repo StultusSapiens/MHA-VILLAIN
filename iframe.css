@@ -1,3 +1,9 @@
+iframe {
+    min-height: 300px; /* Set your desired minimum height */
+    height: 100%;      /* Allow the iframe to scale with its parent */
+    width: 100%;       /* Make sure the iframe takes the full width */
+    border: none;      /* Optional: removes the iframe border */
+}
 .iframe-parent::before {
     opacity: 0;
     word-break: auto-phrase;
