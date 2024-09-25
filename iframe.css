@@ -1,97 +1,58 @@
-/* Base iframe styles */
-.iframe {
-    min-height: 600px;
-    height: 100%;
-    width: 100%;
-    border: none;
-    transition: all 0.3s ease; /* Smooth transition for any changes */
-}
-
-/* Parent container styles */
-.iframe-parent {
-    position: relative;
-    overflow: hidden;
-    border-radius: 0.5rem;
-    background-color: #222;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Before pseudo-element for minimum height */
 .iframe-parent::before {
-    content: "";
+    opacity: 0;
+    word-break: auto-phrase;
+    min-height: 300px;
+    height: 30vh;
+    max-height: 488px;
+    content: "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" !important;
     display: block;
-    min-height: 600px;
-    max-height: 1000px;
 }
-
-/* Greeting iframe styles */
 .iframe-greeting {
     position: absolute;
+    display: block;
+    width: 100%;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 500px;
     z-index: 1;
-    border-radius: 0.5rem;
+    min-height: 500px;
+    height: calc(30vh + 24px);
+    max-height: 500px;
+    overflow: hidden;
+    border-radius: 0 .5rem .5rem .5rem;
 }
-
-/* After pseudo-element for background effect */
 .iframe-parent::after {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background: #222 url('your-background-image.jpg') no-repeat center center;
+    background: #222;
     background-size: cover;
-    opacity: 0.5; /* Adjust for desired blend effect */
-    z-index: -1;
-    border-radius: 0.5rem;
-}
-
-/* Dialogue message styles */
-.iframe-parent .msg-dialogue {
-    display: none;
     position: absolute;
-    bottom: 1.5rem;
-    left: 1rem;
-    right: 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    backdrop-filter: blur(10px);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    top: 0;
+    border-radius: 2px 8px 8px;
+    left: 0;
+    z-index: -1;
+    background-blend-mode:multiply;
 }
-
-/* Headings and horizontal rule styles within dialogue */
+.iframe-parent .msg-dialogue {  
+    margin-top: 1.5rem;
+display:none;
+  position:relative;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: white;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, .2);
+    padding: 1rem;
+    backdrop-filter: blur(1rem);
+    border-radius: .5rem;
+    padding: 2rem 1rem;
+}
 .iframe-parent .msg-dialogue h1,
 .iframe-parent .msg-dialogue h2,
 .iframe-parent .msg-dialogue h3,
-.iframe-parent .msg-dialogue h4,
+.iframe-parent .msg-dialogue h4, 
 .iframe-parent .msg-dialogue hr {
-    text-align: center;
+  text-align: center;
     text-transform: uppercase;
-    color: #bbb;
-    margin-bottom: 1rem;
-}
-
-.iframe-parent .msg-dialogue hr {
-    border-color: rgba(255, 255, 255, 0.2);
-    margin: 1rem 0;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .iframe-parent::before {
-        padding-top: 50vh; /* Taller on mobile */
-    }
-    
-    .iframe-parent .msg-dialogue {
-        font-size: 0.9rem;
-        padding: 1rem;
-    }
+  color:white;
+  border-color:white;
+  color: gray;
 }
