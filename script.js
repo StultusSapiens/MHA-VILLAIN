@@ -16,6 +16,7 @@ let overlayIframe;
 let isOverlayVisible = false;
 let totalAssets = 0;
 let loadedAssets = 0;
+let isAtStoryEnd = false;
 
 // DOM elements
 const introScreen = document.getElementById('intro-screen');
@@ -328,34 +329,46 @@ function startStory() {
 
 // Navigation functions
 function goToPreviousScene() {
-    if (currentSceneIndex > 0) {
-        currentSceneIndex--;
-        nextButton.disabled = false;
-        loadScene(storyData.chapters[currentChapterIndex].scenes[currentSceneIndex]);
+    if (isAtStoryEnd) {
+      // If we're at the end, go back to the last scene of the last chapter
+      isAtStoryEnd = false;
+      currentChapterIndex = storyData.chapters.length - 1;
+      currentSceneIndex = storyData.chapters[currentChapterIndex].scenes.length - 1;
+      
+      // Remove the credits button and restore the next button
+      const creditsButton = document.getElementById('creditsButton');
+      if (creditsButton) {
+        creditsButton.parentNode.replaceChild(nextButton, creditsButton);
+      }
+      nextButton.style.display = 'inline-block';
+      nextButton.disabled = false;
+    } else if (currentSceneIndex > 0) {
+      currentSceneIndex--;
     } else if (currentChapterIndex > 0) {
-        currentChapterIndex--;
-        stopCurrentBackgroundMusic();
-        const previousChapter = storyData.chapters[currentChapterIndex];
-        currentSceneIndex = previousChapter.scenes.length - 1;
-        loadChapterBackgroundMusic(previousChapter.backgroundMusic);
-        loadScene(previousChapter.scenes[currentSceneIndex]);
+      currentChapterIndex--;
+      const previousChapter = storyData.chapters[currentChapterIndex];
+      currentSceneIndex = previousChapter.scenes.length - 1;
+      stopCurrentBackgroundMusic();
+      loadChapterBackgroundMusic(previousChapter.backgroundMusic);
     }
-}
+  
+    loadScene(storyData.chapters[currentChapterIndex].scenes[currentSceneIndex]);
+  }
 
-function goToNextScene() {
+  function goToNextScene() {
     clearTypingEffect();
     const currentChapter = storyData.chapters[currentChapterIndex];
     if (currentSceneIndex < currentChapter.scenes.length - 1) {
-        currentSceneIndex++;
-        loadScene(currentChapter.scenes[currentSceneIndex]);
+      currentSceneIndex++;
+      loadScene(currentChapter.scenes[currentSceneIndex]);
     } else if (currentChapterIndex < storyData.chapters.length - 1) {
-        currentChapterIndex++;
-        stopCurrentBackgroundMusic();
-        loadChapter(currentChapterIndex);
+      currentChapterIndex++;
+      stopCurrentBackgroundMusic();
+      loadChapter(currentChapterIndex);
     } else {
-        endStory();
+      endStory();
     }
-}
+  }
 
 function toggleAutoMode() {
     isAutoMode = !isAutoMode;
@@ -618,23 +631,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
   
   // Function to end the story
-function endStory() {
-  const typewriter = document.getElementById('typewriter');
-  typewriter.innerHTML = '<p>What will you do as your journey continues beyond these pages...?</p>';
-
-  // Create button to show credits overlay
-  const creditsButton = document.createElement('button');
-  creditsButton.textContent = 'View Credits';
-  creditsButton.className = 'neon-button overlay-button';
-  typewriter.appendChild(creditsButton);   
-  creditsButton.onclick = (e) => {
-    e.stopPropagation(); // Prevent event from bubbling up
-    showOverlay(storyData.creditsUrl);
-  };
-
-  // Disable the next button
-  nextButton.disabled = true;
-}
+  function endStory() {
+    const typewriter = document.getElementById('typewriter');
+    typewriter.innerHTML = '<p>What will you do as your journey continues beyond these pages...?</p>';
+  
+    // Hide the next button
+    nextButton.style.display = 'none';
+  
+    // Create credits button
+    const creditsButton = document.createElement('button');
+    creditsButton.textContent = 'View Credits';
+    creditsButton.className = 'neon-button overlay-button';
+    creditsButton.id = 'creditsButton';
+    
+    creditsButton.onclick = (e) => {
+      e.stopPropagation(); // Prevent event from bubbling up
+      showOverlay(storyData.creditsUrl);
+    };
+  
+    // Replace the next button with the credits button
+    nextButton.parentNode.replaceChild(creditsButton, nextButton);
+  
+    // Set the flag to indicate we're at the end of the story
+    isAtStoryEnd = true;
+  
+    // Enable the back button
+    backButton.disabled = false;
+  }
   
   
 
